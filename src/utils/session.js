@@ -1,11 +1,10 @@
-import { UserSession } from '@esri/arcgis-rest-auth';
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import env from '../config/environment';
 import Cookies from 'js-cookie';
-// import { ArcGISIdentityManager } from 'https://cdn.skypack.dev/@esri/arcgis-rest-request@4.0.0';
+import { request } from '@esri/arcgis-rest-request';
 
 const SESSION_COOKIE_NAME = `${env.cookiePrefix}_session`;
-
+const PORTAL_COOKIE_NAME = `${env.cookiePrefix}_portal`;
 /**
  * sign in using OAuth pop up
  */
@@ -19,6 +18,16 @@ export function signIn() {
   }).then(session => {
     // save session for next time the user loads the app
     saveSession(session);
+
+    // saves portal id
+    request(`https://quevera.maps.arcgis.com/sharing/rest/portals/self`)
+    .then(newPortal => {
+      savePortal(newPortal.id)
+    }).catch(e=>{
+      console.error(e)
+    })
+
+
     return session;
   }).catch(e=>{
     console.error("Error has occured", e)
@@ -30,6 +39,8 @@ export function signIn() {
  */
 export function signOut() {
   deleteSession();
+  deletePortal();
+  
 }
 
 /**
@@ -42,6 +53,11 @@ export function restoreSession() {
   return session;
 }
 
+export function restorePortal() {
+  const serializedPortal = Cookies.get(PORTAL_COOKIE_NAME);
+  return serializedPortal
+}
+
 // save session & user for next time the user loads the app
 function saveSession(session) {
   // get expiration from session
@@ -52,4 +68,13 @@ function saveSession(session) {
 // delete a previously saved session
 function deleteSession() {
   Cookies.remove(SESSION_COOKIE_NAME);
+}
+function deletePortal() {
+  Cookies.remove(PORTAL_COOKIE_NAME);
+}
+
+function savePortal(portal){
+  const expires = portal.tokenExpires;
+  Cookies.set(PORTAL_COOKIE_NAME, portal, {expires})
+
 }

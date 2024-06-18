@@ -1,7 +1,8 @@
 export const actionTypes = {
   setSession: 'SET_SESSION',
   setUser: 'SET_USER',
-  signOut: 'SIGN_OUT'
+  signOut: 'SIGN_OUT',
+  setPortal: 'SET_PORTAL'
 };
 
 
@@ -21,6 +22,8 @@ export function appReducer(state, action) {
       return { ...state, user: action.user };
     case actionTypes.signOut:
       return { ...state, session: null, user: null };
+    case actionTypes.setPortal:
+      return { ...state, portal: action.portal }
     default:
       throw new Error(`Invalid app action: '${action.type}'.`);
   }
