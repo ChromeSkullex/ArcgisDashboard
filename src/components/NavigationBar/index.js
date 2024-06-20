@@ -14,6 +14,7 @@ export default function NavigationBar({ onSignIn, onSignOut, user, useOpen, setU
         <>
             <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <Toolbar>
+                    <IconButton color="inherit" sx={{ mr: '20px', display: {md:'none'} }} onClick={()=>setUseOpen(!useOpen)}><MenuIcon /></IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         ArcGIS API App
                     </Typography>
@@ -46,6 +47,11 @@ export default function NavigationBar({ onSignIn, onSignOut, user, useOpen, setU
                         <ListItem>
                             <ListItemButton onClick={() =>{navigate('/')}}>
                                 <ListItemText primary={"Home"}/>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemButton onClick={() =>{navigate('/map')}}>
+                                <ListItemText primary={"Map"}/>
                             </ListItemButton>
                         </ListItem>
                     </List>

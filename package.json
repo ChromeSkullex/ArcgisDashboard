@@ -4,6 +4,8 @@
   "homepage": "https://ChromeSkullex.github.io",
   "private": true,
   "dependencies": {
+    "@arcgis/core": "^4.29.10",
+    "@arcgis/map-components-react": "^4.29.10",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@esri/arcgis-rest-auth": "^3.7.0",
@@ -19,6 +21,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "esri-loader": "^3.7.0",
     "gh-pages": "^6.1.1",
     "js-cookie": "^3.0.5",
     "material-table": "^2.0.5",

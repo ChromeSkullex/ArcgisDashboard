@@ -9,7 +9,7 @@ export default function Login({ onSignIn}) {
     return (
         <>
             
-            <Paper sx={{width: '50vh', padding: '50px'}} elevation={3}>
+            <Paper sx={{width: {md: '50vh', sm: '25vh'}, padding: '50px'}} elevation={3}>
                 <Grid container spacing={5} alignItems="center" justifyContent="center" direction="column">
                     <Grid item >
                         <Typography variant="h5">Log In to ArcGIS Portal</Typography>

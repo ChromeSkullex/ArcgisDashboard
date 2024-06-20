@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
 import AccountManagement from './components/AccountManagement';
 import Login from './components/Login';
+import MapScreen from './components/Map';
 
 function App({ previousSession, previousPortal }) {
   const [useOpen, setUseOpen] = useState(true);
@@ -21,6 +22,7 @@ function App({ previousSession, previousPortal }) {
 
   useEffect(() => {
     if (session && !user) {
+      console.log("User input")
       session.getUser().then((newUser) => {
         dispatch({ type: actionTypes.setUser, user: newUser });
       });
@@ -45,7 +47,7 @@ function App({ previousSession, previousPortal }) {
   return (
 
     <>    
-    {!user && 
+    {!session && 
       <Grid
       container
       spacing={0}
@@ -59,7 +61,7 @@ function App({ previousSession, previousPortal }) {
       </Grid>
     </Grid>
     }
-    {user && <Router>
+    {session && <Router>
       <CssBaseline />
       <NavigationBar onSignIn={onSignIn} onSignOut={onSignOut} user={user} useOpen={useOpen} setUseOpen={setUseOpen} />
       <Box sx={{ display: 'flex' }}>
@@ -69,14 +71,15 @@ function App({ previousSession, previousPortal }) {
             flexGrow: 1,
             p: 3,
             transition: 'margin 0.3s',
-            marginLeft: useOpen ? '240px' : '0px',
+            marginLeft: useOpen ? {md: '240px', sm:'0px'} : '0px',
             marginTop: '55px',
-            width: useOpen ? 'calc(100% - 240px)' : '100%',
+            width:  '100%',
           }}
         >
           <Routes>
             <Route path='/' element={<Hub session={session}/>} />
             <Route path='/account-table' element={<AccountManagement currentUser={user} session={session} portal={portal} />} />
+            <Route path='/map' element={<MapScreen session={session} />} />
           </Routes>
         </Box>
       </Box>
