@@ -18,6 +18,7 @@ export function signIn() {
   }).then(session => {
     // save session for next time the user loads the app
     saveSession(session);
+    console.log("Saving Session")
 
     // saves portal id
     request(`https://quevera.maps.arcgis.com/sharing/rest/portals/self`)
@@ -61,8 +62,10 @@ export function restorePortal() {
 // save session & user for next time the user loads the app
 function saveSession(session) {
   // get expiration from session
+  console.log(session)
   const expires = session.tokenExpires;
   Cookies.set(SESSION_COOKIE_NAME, session.serialize(), { expires });
+  console.log('sessionToken', session.token)
 }
 
 // delete a previously saved session

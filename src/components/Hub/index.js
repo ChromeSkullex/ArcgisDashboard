@@ -3,8 +3,9 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { experimentalStyled as styled } from '@mui/material/styles';
 
-export default function Hub() {
-
+export default function Hub({session}) {
+    const REDIRECT_URI = "https://quevera.maps.arcgis.com/home/organization.html"
+    const CLIENT_ID = "QoIzj2IS2SkyRGBT"
     const cardItems = [
         {
             key: 0,
@@ -16,7 +17,7 @@ export default function Hub() {
         {
             key: 1,
             imgSrc: ``,
-            link: 'https://quevera.maps.arcgis.com/home/organization.html',
+            link: `https://quevera.maps.arcgis.com/home/organization.html?token=${session.token}`,
             title: 'Organization Adminstration',
             description: 'Add, remove, and edit users in organization.'
 
@@ -50,9 +51,10 @@ export default function Hub() {
 
     return (
         <>
-            <Typography>The Hub</Typography>
 
             <Container>
+                <Typography variant="h4" sx={{my:'40px'}}>The Hub</Typography>
+
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
 
                     {cardItems.map(card => {

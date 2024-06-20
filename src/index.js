@@ -10,6 +10,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 const previousSession = restoreSession();
 const previousPortal = restorePortal()
 root.render(
+    
     <App previousSession={previousSession} previousPortal={previousPortal}/>
 
 );

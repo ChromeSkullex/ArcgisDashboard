@@ -16,7 +16,7 @@ export default function Login({ onSignIn}) {
 
                     </Grid>
                     <Grid item >
-                        <img src={`${process.env.PUBLIC_URL}/assets/`} />
+                        <img src={`${process.env.PUBLIC_URL}/assets/IAC-Logo.png`} />
                     </Grid>
                     <Grid item >
                         <Button variant="contained" onClick={onSignIn}>ArcGIS Login</Button>

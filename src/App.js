@@ -7,7 +7,6 @@ import Hub from './components/Hub';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
 import AccountManagement from './components/AccountManagement';
-import { Container } from 'react-bootstrap';
 import Login from './components/Login';
 
 function App({ previousSession, previousPortal }) {
@@ -76,7 +75,7 @@ function App({ previousSession, previousPortal }) {
           }}
         >
           <Routes>
-            <Route path='/' element={<Hub />} />
+            <Route path='/' element={<Hub session={session}/>} />
             <Route path='/account-table' element={<AccountManagement currentUser={user} session={session} portal={portal} />} />
           </Routes>
         </Box>
