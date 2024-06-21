@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
 import AccountManagement from './components/AccountManagement';
 import Login from './components/Login';
-import MapScreen from './components/Map';
+import MapPage from './components/Map';
 
 function App({ previousSession, previousPortal }) {
   const [useOpen, setUseOpen] = useState(true);
@@ -79,7 +79,7 @@ function App({ previousSession, previousPortal }) {
           <Routes>
             <Route path='/' element={<Hub session={session}/>} />
             <Route path='/account-table' element={<AccountManagement currentUser={user} session={session} portal={portal} />} />
-            <Route path='/map' element={<MapScreen session={session} />} />
+            <Route path='/map' element={<MapPage session={session} />} />
           </Routes>
         </Box>
       </Box>
