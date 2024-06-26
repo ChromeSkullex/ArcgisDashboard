@@ -3,12 +3,13 @@ import { actionTypes, appReducer } from './reducers/app';
 import { signIn, signOut } from './utils/session';
 import React, { useReducer, useEffect, useCallback, useState } from 'react';
 import { Box, CssBaseline, Paper, Grid } from '@mui/material';
-import Hub from './components/Hub';
+import Hub from './Components/Hub';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import NavigationBar from './components/NavigationBar';
-import AccountManagement from './components/AccountManagement';
-import Login from './components/Login';
-import MapPage from './components/Map';
+import NavigationBar from './Components/NavigationBar';
+import AccountManagement from './Components/AccountManagement';
+import Login from './Components/Login';
+import MapPage from './Components/Map';
+import Dashboard from './Components/Dashboard';
 
 function App({ previousSession, previousPortal }) {
   const [useOpen, setUseOpen] = useState(true);
@@ -80,6 +81,7 @@ function App({ previousSession, previousPortal }) {
             <Route path='/' element={<Hub session={session}/>} />
             <Route path='/account-table' element={<AccountManagement currentUser={user} session={session} portal={portal} />} />
             <Route path='/map' element={<MapPage session={session} />} />
+            <Route path='/dashboard' element={<Dashboard currentUser={user} session={session} portal={portal}/>} />
           </Routes>
         </Box>
       </Box>

@@ -9,6 +9,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@esri/arcgis-rest-auth": "^3.7.0",
+    "@esri/arcgis-rest-feature-service": "^4.0.6",
     "@esri/arcgis-rest-portal": "^4.4.0",
     "@esri/arcgis-rest-request": "^4.2.2",
     "@material-ui/core": "^4.12.4",

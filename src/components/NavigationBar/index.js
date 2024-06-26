@@ -1,9 +1,14 @@
-import { AppBar, Toolbar, Typography, Button, IconButton, Badge, Drawer, List, ListItem, Box, ListItemButton, ListItemText, CssBaseline } from "@mui/material";
+import { AppBar, Toolbar, Typography, Button, IconButton, Badge, Drawer, List, ListItem, Box, ListItemButton, ListItemText, CssBaseline, Icon } from "@mui/material";
 import React from "react";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useTheme } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
+import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlined'
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
+
 
 export default function NavigationBar({ onSignIn, onSignOut, user, useOpen, setUseOpen }) {
     const drawerWidth = 240;
@@ -14,7 +19,7 @@ export default function NavigationBar({ onSignIn, onSignOut, user, useOpen, setU
         <>
             <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <Toolbar>
-                    <IconButton color="inherit" sx={{ mr: '20px', display: {md:'none'} }} onClick={()=>setUseOpen(!useOpen)}><MenuIcon /></IconButton>
+                    <IconButton color="inherit" sx={{ mr: '20px', display: { md: 'none' } }} onClick={() => setUseOpen(!useOpen)}><MenuIcon /></IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         ArcGIS API App
                     </Typography>
@@ -43,15 +48,31 @@ export default function NavigationBar({ onSignIn, onSignOut, user, useOpen, setU
             >
                 <Toolbar />
                 <Box>
-                    <List>
+                    <List sx={{ color: '#6c757d' }}>
                         <ListItem>
-                            <ListItemButton onClick={() =>{navigate('/')}}>
-                                <ListItemText primary={"Home"}/>
+                            <ListItemButton onClick={() => { navigate('/') }}>
+                                <HomeOutlinedIcon sx={{ mr: '10px' }} />
+                                <ListItemText primary={"Home"} />
                             </ListItemButton>
                         </ListItem>
                         <ListItem>
-                            <ListItemButton onClick={() =>{navigate('/map')}}>
-                                <ListItemText primary={"Map"}/>
+                            <ListItemButton onClick={() => { navigate('/dashboard') }}>
+                                <SpaceDashboardOutlinedIcon sx={{ mr: '10px' }} />
+                                <ListItemText primary={"Dashboard"} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemButton onClick={() => { navigate('/map') }}>
+                                <MapOutlinedIcon sx={{ mr: '10px' }} />
+
+                                <ListItemText primary={"Map"} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemButton onClick={() => { navigate('/account-table') }}>
+                                <PeopleOutlineIcon sx={{ mr: '10px' }} />
+
+                                <ListItemText primary={"Users"} />
                             </ListItemButton>
                         </ListItem>
                     </List>

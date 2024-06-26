@@ -11,15 +11,6 @@ import MaterialTable from "material-table";
 const AccountTable = ({ session, currentUser, portal }) => {
   const [users, setUsers] = useState([]);
 
-  const tableHeader = [
-    "Member",
-    "Email",
-    "Last Login",
-    "User Type",
-    "Role",
-    ""
-  ];
-
   const roleRef = {
     org_admin: "Administrator"
   };
@@ -73,7 +64,7 @@ const AccountTable = ({ session, currentUser, portal }) => {
 
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]);
+  }, []);
 
   return (
     <Container>
