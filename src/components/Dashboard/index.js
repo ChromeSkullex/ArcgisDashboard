@@ -1,19 +1,24 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { queryFeatures } from "@esri/arcgis-rest-feature-service";
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import PieChartPaper from "./PieChartPaper";
+import jobMocks from "../../test/mocks/jobMocks.json";
+import { Paper, Stack } from "@mui/material";
+import TablePaper from "./TablePaper";
+import FCICard from "./FCICard";
 
 export default function Dashboard({ session, currentUser, portal }) {
-    const [jobTypes, setJobTypes] = useState({
-        installation: 0,
-        inspection: 0,
-        repair: 0,
-        count: 0,
-    });
-
+    const [jobTypeData, setJobTypeData] = useState([]);
+    const [priorityData, setPriorityData] = useState([]);
+    const progressData = [
+        { label: 'not Started', count: jobMocks.filter(job => job.status === "not started").length, color: "#BCC1CD" },
+        { label: 'in Progress', count: jobMocks.filter(job => job.status === "in progress").length, color: "#EAB839" },
+        { label: 'Review', count: jobMocks.filter(job => job.status === "review").length, color: "#1976D2" },
+        { label: 'Completed', count: jobMocks.filter(job => job.status === "complete").length, color: "#89CD73" },
+    ]
     const fetchLayerInfo = useCallback(() => {
-        console.log(currentUser, portal);
         if (portal) {
-            console.log("Fetching users from id", session);
-
             const queryJobType = (jobType) => {
                 return queryFeatures({
                     url: "https://services.arcgis.com/wp8Bqxl30rb9yevs/arcgis/rest/services/random_assignments/FeatureServer/0/",
@@ -23,36 +28,79 @@ export default function Dashboard({ session, currentUser, portal }) {
                 }).then(response => response.count);
             };
 
+            const queryPriority = (priority) => {
+                return queryFeatures({
+                    url: "https://services.arcgis.com/wp8Bqxl30rb9yevs/arcgis/rest/services/random_assignments/FeatureServer/0/",
+                    where: `priority = '${priority}'`,
+                    authentication: session,
+                    returnCountOnly: true,
+                }).then(response => response.count);
+            };
+
+            Promise.all([
+                queryPriority('low'),
+                queryPriority('medium'),
+                queryPriority('high'),
+            ]).then(([lowCount, mediumCount, highCount]) => {
+                setPriorityData([
+                    { label: 'low', count: lowCount, color: "#89CD73" },
+                    { label: 'medium', count: mediumCount, color: "#EAB839" },
+                    { label: 'high', count: highCount, color: "#E24D42" }
+                ]);
+            }).catch(e => {
+                console.error(e);
+            });
+
             Promise.all([
                 queryJobType('installation'),
                 queryJobType('repair'),
                 queryJobType('inspection'),
             ]).then(([installationCount, repairCount, inspectionCount]) => {
-                setJobTypes(prevJobTypes => ({
-                    ...prevJobTypes,
-                    installation: installationCount,
-                    repair: repairCount,
-                    inspection: inspectionCount,
-                }));
-                console.log({ installationCount, repairCount, inspectionCount });
+                setJobTypeData([
+                    { label: 'installation', count: installationCount, color: "#1976D2" },
+                    { label: 'repair', count: repairCount, color: "#F2A5FF" },
+                    { label: 'inspection', count: inspectionCount, color: "#9DF7FD" }
+                ]);
             }).catch(e => {
                 console.error(e);
             });
         } else {
-            console.log("Portal is not defined.");
+            console.error("Portal is not defined.");
         }
     }, [currentUser, portal, session]);
 
     useEffect(() => {
-        console.log("Here");
+
         fetchLayerInfo();
     }, [fetchLayerInfo]);
 
     return (
-        <>
-            <p>Installation: {jobTypes.installation}</p>
-            <p>Repair: {jobTypes.repair}</p>
-            <p>Inspection: {jobTypes.inspection}</p>
-        </>
+        <Box>
+            <Grid container spacing={2}>
+                <Grid item xs={12} sm={4}>
+                    <PieChartPaper title={"Job Type"} data={jobTypeData} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <PieChartPaper title={"Priority"} data={priorityData} />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                    <PieChartPaper title={"Progress"} data={progressData} />
+                </Grid>
+                <Grid item xs={12} lg={9}>
+                    <TablePaper data={jobMocks} />
+                </Grid>
+                <Grid item xs={6} lg={3}>
+                    <Grid container spacing={{ xs: 3 }} justifyContent="space-between">
+                        <Grid item xs={12}>
+                            <FCICard />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FCICard />
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+            </Grid>
+        </Box>
     );
 }

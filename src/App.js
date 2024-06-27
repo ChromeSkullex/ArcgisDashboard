@@ -3,13 +3,13 @@ import { actionTypes, appReducer } from './reducers/app';
 import { signIn, signOut } from './utils/session';
 import React, { useReducer, useEffect, useCallback, useState } from 'react';
 import { Box, CssBaseline, Paper, Grid } from '@mui/material';
-import Hub from './Components/Hub';
+import Hub from './components/Hub';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import NavigationBar from './Components/NavigationBar';
-import AccountManagement from './Components/AccountManagement';
-import Login from './Components/Login';
-import MapPage from './Components/Map';
-import Dashboard from './Components/Dashboard';
+import NavigationBar from './components/NavigationBar';
+import AccountManagement from './components/AccountManagement';
+import Login from './components/Login';
+import MapPage from './components/Map';
+import Dashboard from './components/Dashboard';
 
 function App({ previousSession, previousPortal }) {
   const [useOpen, setUseOpen] = useState(true);

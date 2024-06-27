@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import env from '../../config/environment';
-import { signOut } from '../..//utils/session';
+import { signOut } from '../../utils/session';
 
 import MapView from "@arcgis/core/views/MapView";
 import esriConfig from "@arcgis/core/config.js";
