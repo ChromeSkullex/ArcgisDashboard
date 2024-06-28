@@ -144,7 +144,7 @@ export default function TablePaper({ data }) {
                         <TableRow>
                             <TablePagination
 
-                                rowsPerPageOptions={[5, 10, 15]}
+                                rowsPerPageOptions={[5, 10, 50]}
                                 colSpan={7}
                                 count={data.length}
                                 rowsPerPage={rowsPerPage}

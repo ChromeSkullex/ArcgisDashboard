@@ -7,6 +7,7 @@ import jobMocks from "../../test/mocks/jobMocks.json";
 import { Paper, Stack } from "@mui/material";
 import TablePaper from "./TablePaper";
 import FCICard from "./FCICard";
+import ResponseCard from "./ResponseCard";
 
 export default function Dashboard({ session, currentUser, portal }) {
     const [jobTypeData, setJobTypeData] = useState([]);
@@ -89,17 +90,17 @@ export default function Dashboard({ session, currentUser, portal }) {
                 <Grid item xs={12} lg={9}>
                     <TablePaper data={jobMocks} />
                 </Grid>
-                <Grid item xs={6} lg={3}>
-                    <Grid container spacing={{ xs: 3 }} justifyContent="space-between">
+                <Grid item xs={6} lg={3} style={{ height: '100%' }}>
+                    <Grid container spacing={3} direction="column" justifyContent="space-between" style={{ height: '100%' }}>
                         <Grid item xs={12}>
                             <FCICard />
                         </Grid>
-                        <Grid item xs={12}>
-                            <FCICard />
+                        <Grid item xs={12} style={{ height: '100%' }}>
+                            <ResponseCard />
                         </Grid>
                     </Grid>
-
                 </Grid>
+
             </Grid>
         </Box>
     );
