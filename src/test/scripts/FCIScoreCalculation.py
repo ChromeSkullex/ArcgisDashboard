@@ -28,20 +28,15 @@ def yearJson(yearByJson):
         }
     return result
 
-# Load the workbook
 workbook = pd.read_excel("iAuditorData.xlsx")
 fci_num = convertToNum(workbook)
 
-# Calculate the mean FCI
 mean_fci = sum(fci_num) / len(fci_num)
 print("Mean FCI:", mean_fci)
 
-# Calculate the mean per year and create the new JSON structure
 yearly_mean_json = yearJson(yearByJson)
 
-# Save the new JSON structure to a file
 with open('../mocks/yearByJson.json', 'w') as file:
     json.dump(yearly_mean_json, file, indent=4)
 
-# Print the new JSON structure for verification
 print(json.dumps(yearly_mean_json, indent=4))
