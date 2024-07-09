@@ -5,24 +5,35 @@ import json
 jsonDateCalculation = {}
 
 def dateConvertion(workbook):
-    for index, row in workbook.iterrows():
-        if index != 0:
-            date_started = pd.to_datetime(row["DateStarted"])
-            conducted_on = pd.to_datetime(row["ConductedOn"])
-            date_completed = pd.to_datetime(row["DateCompleted"])
+    # Convert date columns to datetime
+    workbook["DateStarted"] = pd.to_datetime(workbook["DateStarted"])
+    workbook["ConductedOn"] = pd.to_datetime(workbook["ConductedOn"])
+    workbook["DateCompleted"] = pd.to_datetime(workbook["DateCompleted"])
 
-            conduction_response = round((conducted_on - date_started).total_seconds() / 3600, 2)
-            completion_response = round((date_completed - conducted_on).total_seconds() / 3600, 2)
-            jsonDateCalculation[index-1] = {
-                "PSC_Number": row["PSC_Number"],
-                "dateStarted": date_started,
-                "conductedIn": conducted_on,
-                "dateCompleted": date_completed,
-                "responseTime": {
-                    "conductionResponse": conduction_response,
-                    "completionResponse": completion_response
-                }
+    # Group by dateStarted and calculate mean for each group
+    grouped_workbook = workbook.groupby("DateStarted").agg({
+        "PSC_Number": "mean",
+        "ConductedOn": "mean",
+        "DateCompleted": "mean"
+    }).reset_index()
+
+    for index, row in grouped_workbook.iterrows():
+        date_started = row["DateStarted"]
+        conducted_on = row["ConductedOn"]
+        date_completed = row["DateCompleted"]
+
+        conduction_response = round((conducted_on - date_started).total_seconds() / 3600, 2)
+        completion_response = round((date_completed - conducted_on).total_seconds() / 3600, 2)
+        jsonDateCalculation[index] = {
+            "PSC_Number": row["PSC_Number"],
+            "dateStarted": date_started,
+            "conductedIn": conducted_on,
+            "dateCompleted": date_completed,
+            "responseTime": {
+                "conductionResponse": conduction_response,
+                "completionResponse": completion_response
             }
+        }
 
 # Load the workbook
 workbook = pd.read_excel("iAuditorData.xlsx")

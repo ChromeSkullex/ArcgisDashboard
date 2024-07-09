@@ -90,12 +90,12 @@ export default function Dashboard({ session, currentUser, portal }) {
                 <Grid item xs={12} lg={9}>
                     <TablePaper data={jobMocks} />
                 </Grid>
-                <Grid item xs={6} lg={3} style={{ height: '100%' }}>
+                <Grid item xs={12} lg={3} style={{ height: '100%' }}>
                     <Grid container spacing={3} direction="column" justifyContent="space-between" style={{ height: '100%' }}>
-                        <Grid item xs={12}>
+                        <Grid item xs={4} lg={12}>
                             <FCICard />
                         </Grid>
-                        <Grid item xs={12} style={{ height: '100%' }}>
+                        <Grid item xs={10} lg={12} style={{ height: '100%' }}>
                             <ResponseCard />
                         </Grid>
                     </Grid>

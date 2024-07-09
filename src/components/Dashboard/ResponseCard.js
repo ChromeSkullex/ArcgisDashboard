@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { styled } from '@mui/material/styles';
 import { Card, Box, CardContent, Stack, Typography, Avatar, Paper, colors, Grid, Select, MenuItem } from "@mui/material";
 import ReactApexChart from "react-apexcharts";
-import yearByJson from "../../test/mocks/yearByJson.json"
 import performanceTime from "../../test/mocks/performanceTime.json"
 
 export default function ResponseCard() {
@@ -16,12 +15,22 @@ export default function ResponseCard() {
         color: theme.palette.text.secondary,
         height: '100%',
         boxShadow: "rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px"
-    }));
+    })); // Convert the performanceTime object to an array
+    const performanceTimeArray = Object.values(performanceTime);
+
+    const filteredData = performanceTimeArray.filter((data) => {
+        const year = new Date(data.dateStarted).getFullYear();
+        return year === yearSelected;
+    });
 
     const series = [{
-        name: "PSC_Number",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-    }]
+        name: "Response time",
+        data: filteredData.map((data) => {
+            return {
+                x: new Date(data.dateStarted),
+                y: data.responseTime.conductionResponse}
+        })
+    }];
 
     const options = {
         chart: {
@@ -33,25 +42,50 @@ export default function ResponseCard() {
               enabled: true,
               autoScaleYaxis: true
             },
+            markers: {
+              size: 0,
+            },
             toolbar: {
               autoSelected: 'zoom'
             }
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            inverseColors: false,
+            opacityFrom: 0.5,
+            opacityTo: 0,
+            stops: [0, 90, 100]
+          },
         },
         dataLabels: {
             enabled: false
         },
         stroke: {
-            curve: 'straight'
+            // curve: 'straight'
         },
-        grid: {
-            row: {
-                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                opacity: 0.5
+        yaxis: {
+            labels: {
+              formatter: function (val) {
+                return (val).toFixed(0);
+              },
             },
-        },
-        xaxis: {
+            title: {
+              text: 'Response Time'
+            },
+          },
+          xaxis: {
             type: 'datetime',
-        }
+          },
+          tooltip: {
+            shared: false,
+            y: {
+              formatter: function (val) {
+                return (val).toFixed(0)
+              }
+            }
+          }
     }
 
 
@@ -85,7 +119,7 @@ export default function ResponseCard() {
                     <ReactApexChart
                         options={options}
                         series={series}
-                        type="line"
+                        type="area"
                         height={282}
 
                     />
